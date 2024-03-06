@@ -4,6 +4,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using BirthflowMicroServices.Models;
+using Newtonsoft.Json.Linq;
 
 namespace BirthflowMicroServices.Extensions
 {
@@ -17,7 +18,18 @@ namespace BirthflowMicroServices.Extensions
 			}
 
 			var jsonConfig = File.ReadAllText(filePath);
-			var dependencias = JsonConvert.DeserializeObject<List<DependencyConfiguration>>(jsonConfig);
+
+			var jsonObject = JObject.Parse(jsonConfig); // Parsea el JSON en un objeto JObject
+
+			var dependenciasArray = jsonObject["DependencyConfiguration"]; // Obtiene el arreglo de dependencias
+
+			if (dependenciasArray == null)
+			{
+				throw new JsonException("El JSON no contiene un arreglo 'DependencyConfiguration'.");
+			}
+
+			var dependencias = JsonConvert.DeserializeObject<List<DependencyConfiguration>>(dependenciasArray.ToString()); // Deserializa el arreglo en una lista de DependencyConfiguration
+
 
 			foreach (var dependencia in dependencias!)
 			{
@@ -30,7 +42,7 @@ namespace BirthflowMicroServices.Extensions
 						services.AddScoped(tipoFrom!, tipoTo!);
 						break;
 					case "transient":
-						services.AddTransient(tipoFrom!, tipoTo!);
+						services.AddTransient(tipoFrom, tipoTo);
 						break;
 					case "singleton":
 						services.AddSingleton(tipoFrom!, tipoTo!);
