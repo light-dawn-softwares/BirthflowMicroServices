@@ -42,7 +42,7 @@ namespace BirthflowMicroServices.Extensions
 						services.AddScoped(tipoFrom!, tipoTo!);
 						break;
 					case "transient":
-						services.AddTransient(tipoFrom, tipoTo);
+						services.AddTransient(tipoFrom!, tipoTo!);
 						break;
 					case "singleton":
 						services.AddSingleton(tipoFrom!, tipoTo!);

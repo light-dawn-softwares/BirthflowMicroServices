@@ -1,114 +1,146 @@
-﻿using BirthflowMicroServices.Extensions;
+﻿using Asp.Versioning.ApiExplorer;
+using BirthflowMicroServices.Extensions;
 using BirthflowMicroServices.Infraestructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 
 namespace BirthflowMicroServices
 {
 
-	public class Startup
-	{
-		public IConfiguration Configuration;
+    public class Startup
+    {
+        public IConfiguration Configuration;
 
-		public Startup(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddDbContext<BirthFlowDbContext>(options =>
-			{
-				options.UseSqlServer(Configuration.GetConnectionString("ConnectionStrings"));
-			});
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDbContext<BirthFlowDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("ConnectionStrings"));
+            });
 
-			services.AddControllers()
-				.AddJsonOptions(options =>
-				{
-					options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-				});
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                });
 
-			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "BirthFlow.Api", Version = "Free", Description = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") });
+	        services
+	            .AddApiVersioning(options =>
+	            {
+		            //indicating whether a default version is assumed when a client does
+		            // does not provide an API version.
+		            options.AssumeDefaultVersionWhenUnspecified = true;
+	            })
+	            .AddApiExplorer(options =>
+	            {
+		            options.GroupNameFormat = "'v'VVV";
+		            options.SubstituteApiVersionInUrl = true;
+	            });
 
-				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-				{
-					In = ParameterLocation.Header,
-					Description = "Por favor ingrese el token JWT como: 'Bearer {TOKEN}'.",
-					Name = "Authorization",
-					Type = SecuritySchemeType.Http,
-					Scheme = "bearer"
-				});
-				
-				c.AddSecurityRequirement(new OpenApiSecurityRequirement
-				{
-					{
-						new OpenApiSecurityScheme
-						{
-							Reference = new OpenApiReference
-							{
-								Type = ReferenceType.SecurityScheme,
-								Id = "Bearer"
-							}
-						},
-						Array.Empty<string>()
-					}
-				});
+            services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
 
+            });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("newPolicy", app =>
+                {
+                    app.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
 
-			});
-			services.AddCors(options =>
-			{
-				options.AddPolicy("newPolicy", app =>
-				{
-					app.AllowAnyOrigin()
-					.AllowAnyHeader()
-					.AllowAnyMethod();
-				});
-			});
+            services.AddResponseCompression();
+            services.AddResponseCaching();
 
-			// servicio para la generacion de PDFs
-			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            // servicio para la generacion de PDFs
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-			RegisterServices(services);
-		}
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
-		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-				app.UseHsts();	
-			}
-			app.UseSwagger();
-			app.UseSwaggerUI(c =>
-			{
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "BirthflowMicroServices");
-				c.RoutePrefix = string.Empty;
-			});
+            RegisterServices(services);
+        }
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
-			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+            if (env.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    var provider = app.ApplicationServices.GetService<IApiVersionDescriptionProvider>();
 
-			app.UseRouting();
-			app.UseCors("newPolicy");
+                    // Itera sobre las descripciones de versiones y agrega un endpoint de Swagger para cada una
+                    foreach (var description in provider.ApiVersionDescriptions)
+                    {
+                        var url = $"/swagger/{description.GroupName}/swagger.json";
+                        var name = description.GroupName.ToUpperInvariant();
+                        options.SwaggerEndpoint(url, name);
+                    }
+                });
+            }
 
-			app.UseAuthentication();
-			app.UseAuthorization();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = context =>
+                {
+                    // Configura las cabeceras de control de caché aquí
+                    context.Context.Response.Headers["Cache-Control"] = "public,max-age=31536000";
+                }
+            });
 
-			app.UseMiddleware<ErrorLoggingMiddleware>();
+            app.UseRouting();
+            app.UseCors("newPolicy");
 
-			app.UseEndpoints(endpoints => endpoints.MapControllers());
-		}
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-		private void RegisterServices(IServiceCollection services)
-		{
-			DependencyConfigurationLoader.LoadDependencies(services, "dependencies.json");
-		}
-	}
+            app.UseMiddleware<ErrorLoggingMiddleware>();
+
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddSwaggerGen(options =>
+            {
+                // Add a custom operation filter which sets default values
+                options.OperationFilter<SwaggerDefaultValues>();
+            });
+
+            DependencyConfigurationLoader.LoadDependencies(services, "dependencies.json");
+        }
+    }
 }

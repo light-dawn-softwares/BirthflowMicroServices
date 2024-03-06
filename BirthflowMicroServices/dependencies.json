@@ -1,8 +1,8 @@
 {
   "DependencyConfiguration": [
     {
-      "From": "BirthflowMicroServices.Application.Interface.IPartogramaService, BirthflowMicroServices.Application.Interface",
-      "To": "BirthflowMicroServices.Application.Services.PartogramaService, BirthflowMicroServices.Application.Services",
+      "From": "BirthflowMicroServices.Application.Interfaces.IPartogramaService, BirthflowMicroServices.Application",
+      "To": "BirthflowMicroServices.Application.Services.PartogramaService, BirthflowMicroServices.Application",
       "DependencyType": "Transient"
     },
    
