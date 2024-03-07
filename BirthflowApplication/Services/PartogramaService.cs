@@ -1,17 +1,29 @@
 ﻿using BirthflowMicroServices.Application.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BirthflowMicroServices.Domain.Models;
 
 namespace BirthflowMicroServices.Application.Services
 {
 	public class PartogramaService : IPartogramaService
 	{
-		public int GetPartograma()
+		public Partograma GetPartograma(string partogramaId)
 		{
-			return 1;
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<Partograma> GetPartogramas(Guid usuarioId)
+		{
+			return new List<Partograma>() {
+				new Partograma {
+					PartogramaId = "1",
+					UsuarioId = usuarioId,
+					Nombre = "Nombre del Partograma",
+					Expediente = "Expediente del Partograma",
+					Fecha = DateTime.Now,
+					IsDelete = false,
+					CreateAt = DateTime.Now,
+					UpdateAt = null,
+				}
+			};
 		}
 	}
 }

@@ -5,6 +5,6 @@
       "To": "BirthflowMicroServices.Application.Services.PartogramaService, BirthflowMicroServices.Application",
       "DependencyType": "Transient"
     },
-   
+
   ]
 }
