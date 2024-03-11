@@ -5,6 +5,10 @@
       "To": "BirthflowMicroServices.Application.Services.PartogramaService, BirthflowMicroServices.Application",
       "DependencyType": "Transient"
     },
-
+    {
+      "From": "BirthflowMicroServices.Domain.Interfaces.IPartogramaRepository, BirthflowMicroServices.Domain",
+      "To": "BirthflowMicroServices.Infraestructure.Repositories.PartogramaRepository, BirthflowMicroServices.Infraestructure",
+      "DependencyType": "Transient"
+    }
   ]
 }

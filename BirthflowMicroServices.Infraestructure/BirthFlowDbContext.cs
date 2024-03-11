@@ -20,7 +20,7 @@ public partial class BirthFlowDbContext : DbContext
 	}
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
- => optionsBuilder.UseSqlServer(_config.GetConnectionString($"ConnectionLocalSQL"));
+ => optionsBuilder.UseSqlServer(_config.GetConnectionString($"Birthflow"));
 
 	public virtual DbSet<Configuracione> Configuraciones { get; set; }
 
