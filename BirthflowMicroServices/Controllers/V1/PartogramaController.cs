@@ -1,6 +1,8 @@
 ﻿using Asp.Versioning;
+using BirthflowMicroServices.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -49,5 +51,53 @@ namespace BirthflowMicroServices.Controllers.V1
 				throw new Exception(ex.Message);
 			}
 		}
-	}
+
+        [HttpGet()]
+        public IActionResult GetPartograma(string partogramaId)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                var resultado = _service.GetPartograma(partogramaId);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(resultado));
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPost()]
+		public IActionResult CreatePartograma([FromBody] PartogramaDto partogramaDto)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                var resultado = _service.CreatePartograma(partogramaDto);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(resultado));
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+    }
 }
