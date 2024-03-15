@@ -1,16 +1,16 @@
 ﻿namespace BirthflowMicroServices.Domain.Models;
 
-public partial class Vpp
+public partial class DilatacionCervical
 {
-    public string VppId { get; set; } = null!;
+    public string DilatacionCervicalId { get; set; } = null!;
 
     public string? PartogramaId { get; set; }
 
-    public string PlanoHodge { get; set; } = null!;
+    public decimal Valor { get; set; }
 
-    public string Posicion { get; set; } = null!;
+    public DateTime Hora { get; set; }
 
-    public DateTime Tiempo { get; set; }
+    public bool RemOram { get; set; }
 
     public bool IsDelete { get; set; }
 

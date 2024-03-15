@@ -2,15 +2,15 @@
 
 public partial class NotificationPartograma
 {
-	public string? PartogramaId { get; set; }
+    public string? PartogramaId { get; set; }
 
-	public Guid? UsuarioId { get; set; }
+    public Guid? UsuarioId { get; set; }
 
-	public string? NotificacionId { get; set; }
+    public string? NotificacionId { get; set; }
 
-	public virtual Notificatione? Notificacion { get; set; }
+    public virtual Notificatione? Notificacion { get; set; }
 
-	public virtual Partograma? Partograma { get; set; }
+    public virtual Partograma? Partograma { get; set; }
 
-	public virtual Usuario? Usuario { get; set; }
+    public virtual Usuario? Usuario { get; set; }
 }

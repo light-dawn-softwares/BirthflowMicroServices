@@ -1,17 +1,10 @@
 ﻿using BirthflowMicroServices.Domain.Interfaces;
 using BirthflowMicroServices.Domain.Models;
-using BirthflowMicroServices.Infraestructure.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BirthflowMicroServices.Infraestructure.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-
         private readonly BirthFlowDbContext _context;
 
         public UsuarioRepository(BirthFlowDbContext context)
@@ -36,8 +29,7 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
                 return _context.Usuarios.Find(keyValues: usuario.UsuarioId)!;
             }
             catch (Exception ex)
-            { 
-
+            {
                 throw new Exception("Error getting resulk", ex);
             }
         }

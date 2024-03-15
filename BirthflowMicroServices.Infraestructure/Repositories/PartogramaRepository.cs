@@ -2,11 +2,6 @@
 using BirthflowMicroServices.Domain.Models;
 using BirthflowMicroServices.Infraestructure.Helpers;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BirthflowMicroServices.Infraestructure.Repositories
 {
@@ -23,7 +18,6 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
         {
             try
             {
-
                 var id = PartogramaIdGenerator.CreateUniqueId(partograma.Nombre, DateTime.Now);
 
                 partograma.PartogramaId = id;
@@ -55,7 +49,6 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -68,7 +61,6 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
                     Include(p => p.TiempoTrabajo).
                     Include(p => p.PartogramaEstado).
                     FirstOrDefault(p => p.PartogramaId == partogramaId && !p.IsDelete)!;
-
             }
             catch (Exception ex)
             {

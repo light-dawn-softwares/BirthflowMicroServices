@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BirthflowMicroServices.Infraestructure.Helpers
+﻿namespace BirthflowMicroServices.Infraestructure.Helpers
 {
     public class PartogramaIdGenerator
     {
@@ -13,7 +7,6 @@ namespace BirthflowMicroServices.Infraestructure.Helpers
 
         public static string CreateUniqueId(string name, DateTime creationDate)
         {
-
             string creationDateString = creationDate.ToString("yyMMdd");
             string creationDateString2 = creationDate.ToString("mms");
 

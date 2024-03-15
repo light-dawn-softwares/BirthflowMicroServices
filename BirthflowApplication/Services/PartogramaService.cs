@@ -2,17 +2,18 @@
 using BirthflowMicroServices.Application.Models;
 using BirthflowMicroServices.Domain.Interfaces;
 using BirthflowMicroServices.Domain.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BirthflowMicroServices.Application.Services
 {
     public class PartogramaService : IPartogramaService
     {
         private readonly IPartogramaRepository _partogramaRepository;
+        private readonly IDilatacionCervicalRepository _dilatacionCervicalRepository;
 
-        public PartogramaService(IPartogramaRepository partogramaRepository)
+        public PartogramaService(IPartogramaRepository partogramaRepository, IDilatacionCervicalRepository dilatacionCervicalRepository)
         {
             this._partogramaRepository = partogramaRepository;
+            this._dilatacionCervicalRepository = dilatacionCervicalRepository;
         }
 
         public Partograma GetPartograma(string partogramaId)
@@ -51,7 +52,6 @@ namespace BirthflowMicroServices.Application.Services
                     Nombre = partogramaDto.Nombre,
                     Expediente = partogramaDto.Expediente,
                     Fecha = partogramaDto.Fecha,
-
                 };
 
                 TiempoTrabajo tiempoTrabajo = new TiempoTrabajo
@@ -63,6 +63,18 @@ namespace BirthflowMicroServices.Application.Services
                 };
 
                 return _partogramaRepository.CreatePartograma(partograma, tiempoTrabajo);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public DilatacionCervical CreateDilatacionCervical(DilatacionCervical dilatacion)
+        {
+            try
+            {
+                return _dilatacionCervicalRepository.CreateDilatacionCervical(dilatacion);
             }
             catch (Exception ex)
             {

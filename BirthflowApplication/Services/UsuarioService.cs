@@ -2,11 +2,6 @@
 using BirthflowMicroServices.Application.Models;
 using BirthflowMicroServices.Domain.Interfaces;
 using BirthflowMicroServices.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BirthflowMicroServices.Application.Services
 {
@@ -30,7 +25,6 @@ namespace BirthflowMicroServices.Application.Services
                     Apellidos = usuarioDto.Apellidos,
                     Email = usuarioDto.Email,
                     PhoneNumber = usuarioDto.PhoneNumber,
-
                 };
                 return _usuarioRepository.CreateUsuario(usuario);
             }
@@ -38,7 +32,6 @@ namespace BirthflowMicroServices.Application.Services
             {
                 throw new Exception("Error getting all Usuarios", ex);
             }
-         
         }
 
         public IEnumerable<Usuario> GetUsuarios()
@@ -51,7 +44,6 @@ namespace BirthflowMicroServices.Application.Services
             {
                 throw new Exception("Error getting all Usuarios", ex);
             }
-            
         }
     }
 }
