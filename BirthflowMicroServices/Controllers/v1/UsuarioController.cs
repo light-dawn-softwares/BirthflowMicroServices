@@ -1,6 +1,5 @@
 ﻿using Asp.Versioning;
 using BirthflowMicroServices.Application.Models;
-using BirthflowMicroServices.Controllers.V1;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -14,7 +13,6 @@ namespace BirthflowMicroServices.Controllers.v1
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     public class UsuarioController : Controller
     {
-
         private readonly BirthflowMicroServices.Application.Interfaces.IUsuarioService _service;
         private readonly ILogger<UsuarioController> _logger;
 
@@ -28,7 +26,6 @@ namespace BirthflowMicroServices.Controllers.v1
             nombreServicio = Assembly.GetExecutingAssembly().GetName().Name;
             nombreController = this.GetType().Name;
         }
-
 
         [HttpGet()]
         public IActionResult GetPartogramas()
