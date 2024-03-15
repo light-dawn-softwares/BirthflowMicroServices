@@ -1,6 +1,16 @@
 {
   "DependencyConfiguration": [
     {
+      "From": "BirthflowMicroServices.Application.Interfaces.IUsuarioService, BirthflowMicroServices.Application",
+      "To": "BirthflowMicroServices.Application.Services.UsuarioService, BirthflowMicroServices.Application",
+      "DependencyType": "Transient"
+    },
+    {
+      "From": "BirthflowMicroServices.Domain.Interfaces.IUsuarioRepository, BirthflowMicroServices.Domain",
+      "To": "BirthflowMicroServices.Infraestructure.Repositories.UsuarioRepository, BirthflowMicroServices.Infraestructure",
+      "DependencyType": "Transient"
+    },
+    {
       "From": "BirthflowMicroServices.Application.Interfaces.IPartogramaService, BirthflowMicroServices.Application",
       "To": "BirthflowMicroServices.Application.Services.PartogramaService, BirthflowMicroServices.Application",
       "DependencyType": "Transient"

@@ -23,29 +23,35 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
         {
             try
             {
-                partograma.PartogramaId = PartogramaIdGenerator.CreateUniqueId(partograma.Nombre, DateTime.Now);
+
+                var id = PartogramaIdGenerator.CreateUniqueId(partograma.Nombre, DateTime.Now);
+
+                partograma.PartogramaId = id;
                 partograma.IsDelete = false;
                 partograma.UpdateAt = null;
+                partograma.CreateAt = DateTime.Now;
                 _context.Add(partograma);
 
-                tiempoTrabajo.PartogramaId = tiempoTrabajo.PartogramaId;
+                tiempoTrabajo.PartogramaId = id;
                 tiempoTrabajo.CreateAt = DateTime.Now;
                 tiempoTrabajo.UpdateAt = null;
                 _context.Add(tiempoTrabajo);
 
                 PartogramaEstado partographState = new PartogramaEstado
                 {
-                    PartogramaId = partograma.PartogramaId,
+                    PartogramaId = id,
                     Archivado = false,
                     Silenciado = false,
                     Permanente = false,
-
+                    CreateAt = DateTime.Now,
                     UpdateAt = null,
                 };
 
                 _context.Add(partographState);
 
-                return GetPartograma(partogramaId: partograma.PartogramaId);
+                _context.SaveChanges();
+
+                return GetPartograma(partogramaId: id);
             }
             catch (Exception ex)
             {
@@ -58,16 +64,15 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
         {
             try
             {
-
                 return _context.Partogramas.
                     Include(p => p.TiempoTrabajo).
                     Include(p => p.PartogramaEstado).
                     FirstOrDefault(p => p.PartogramaId == partogramaId && !p.IsDelete)!;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
 
