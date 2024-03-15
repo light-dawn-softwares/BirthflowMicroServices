@@ -25,13 +25,13 @@ namespace BirthflowMicroServices
 				options.UseSqlServer(Configuration.GetConnectionString("Birthflow"));
 			});
 
-			services.AddControllers()
-				.AddJsonOptions(options =>
-				{
-					options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-				});
+            services.AddControllers()
+        .AddNewtonsoftJson(options =>
+        {
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        });
 
-			services
+            services
 				.AddApiVersioning(options =>
 				{
 					//indicating whether a default version is assumed when a client does

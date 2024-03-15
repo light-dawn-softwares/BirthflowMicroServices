@@ -23,7 +23,7 @@ namespace BirthflowMicroServices.Application.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error", ex);
             }
         }
 
@@ -35,7 +35,7 @@ namespace BirthflowMicroServices.Application.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error", ex);
             }
         }
 
@@ -56,6 +56,7 @@ namespace BirthflowMicroServices.Application.Services
 
                 TiempoTrabajo tiempoTrabajo = new TiempoTrabajo
                 {
+                    PartogramaId = partogramaDto.PartogramaId!,
                     Paridad = partogramaDto.TiempoTrabajo!.Paridad,
                     Membranas = partogramaDto.TiempoTrabajo.Membranas,
                     Posicion = partogramaDto.TiempoTrabajo.Posicion,
@@ -65,7 +66,7 @@ namespace BirthflowMicroServices.Application.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error", ex);
             }
         }
     }
