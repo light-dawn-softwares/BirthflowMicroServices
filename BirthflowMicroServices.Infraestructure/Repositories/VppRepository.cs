@@ -4,28 +4,29 @@ using NanoidDotNet;
 
 namespace BirthflowMicroServices.Infraestructure.Repositories
 {
-    public class DilatacionCervicalRepository : IDilatacionCervicalRepository
+    public class VppRepository : IVppRepository
     {
         private readonly BirthFlowDbContext _context;
 
-        public DilatacionCervicalRepository(BirthFlowDbContext context)
+        public VppRepository(BirthFlowDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public DilatacionCervical CreateDilatacionCervical(DilatacionCervical dilatacionCervical)
+        public Vpp CreateVpp(Vpp vpp)
         {
             try
             {
                 var id = Nanoid.Generate(size: 15);
-                dilatacionCervical.DilatacionCervicalId = id;
-                dilatacionCervical.CreateAt = DateTime.Now;
-                dilatacionCervical.UpdateAt = null;
-                dilatacionCervical.DeleteAt = null;
-                _context.Add(dilatacionCervical);
+                vpp.VppId = id;
+
+                vpp.CreateAt = DateTime.Now;
+                vpp.UpdateAt = null;
+                vpp.DeleteAt = null;
+                _context.Add(vpp);
                 _context.SaveChanges();
 
-                return _context.DilatacionesCervicales.Find(id)!;
+                return _context.Vpps.Find(id)!;
             }
             catch (Exception ex)
             {
@@ -33,11 +34,11 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
             }
         }
 
-        public void DeleteDilatacionCervical(string dilatacionCervicalId)
+        public void DeleteVpp(string vppId)
         {
             try
             {
-                var searchElement = _context.DilatacionesCervicales.Find(dilatacionCervicalId);
+                var searchElement = _context.Vpps.Find(vppId);
 
                 if (searchElement != null)
                 {
@@ -52,11 +53,11 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
             }
         }
 
-        public DilatacionCervical GetDilatacionCervical(string DilatacionCervicalId)
+        public Vpp GetVpp(string vppId)
         {
             try
             {
-                return _context.DilatacionesCervicales.FirstOrDefault(p => p.DilatacionCervicalId == DilatacionCervicalId && !p.IsDelete)!;
+                return _context.Vpps.FirstOrDefault(p => p.VppId == vppId && !p.IsDelete)!;
             }
             catch (Exception ex)
             {
@@ -64,11 +65,11 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
             }
         }
 
-        public IEnumerable<DilatacionCervical> GetDilatacionesCervicales(string partogramaId)
+        public IEnumerable<Vpp> GetVpps(string partogramaId)
         {
             try
             {
-                return _context.DilatacionesCervicales.
+                return _context.Vpps.
                     Where(p => p.PartogramaId == partogramaId).
                     Where(p => p.IsDelete == false).ToList();
             }
@@ -78,15 +79,16 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
             }
         }
 
-        public DilatacionCervical UpdateDilatacionCervical(DilatacionCervical dilatacionCervical)
+        public Vpp UpdateVpp(Vpp vpp)
         {
-            var searchElement = _context.DilatacionesCervicales.Find(dilatacionCervical.DilatacionCervicalId);
+            var searchElement = _context.Vpps.Find(vpp.VppId);
 
             if (searchElement != null)
             {
-                searchElement.Valor = dilatacionCervical.Valor;
-                searchElement.Hora = dilatacionCervical.Hora;
-                searchElement.RemOram = dilatacionCervical.RemOram;
+                searchElement.PartogramaId = vpp.PartogramaId;
+                searchElement.PlanoHodge = vpp.PlanoHodge;
+                searchElement.Posicion = vpp.Posicion;
+                searchElement.Tiempo = vpp.Tiempo;
                 searchElement.UpdateAt = DateTime.Now;
 
                 _context.SaveChanges();
