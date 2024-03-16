@@ -9,11 +9,13 @@ namespace BirthflowMicroServices.Application.Services
     {
         private readonly IPartogramaRepository _partogramaRepository;
         private readonly IDilatacionCervicalRepository _dilatacionCervicalRepository;
+        private readonly IVppRepository _vppRepository;
 
-        public PartogramaService(IPartogramaRepository partogramaRepository, IDilatacionCervicalRepository dilatacionCervicalRepository)
+        public PartogramaService(IPartogramaRepository partogramaRepository, IDilatacionCervicalRepository dilatacionCervicalRepository, IVppRepository vppRepository)
         {
             this._partogramaRepository = partogramaRepository;
             this._dilatacionCervicalRepository = dilatacionCervicalRepository;
+            this._vppRepository = vppRepository;
         }
 
         public Partograma GetPartograma(string partogramaId)
@@ -70,11 +72,150 @@ namespace BirthflowMicroServices.Application.Services
             }
         }
 
-        public DilatacionCervical CreateDilatacionCervical(DilatacionCervical dilatacion)
+        public DilatacionCervical GetDilatacionCervical(string DilatacionCervicalId)
         {
             try
             {
+                return _dilatacionCervicalRepository.GetDilatacionCervical(DilatacionCervicalId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public IEnumerable<DilatacionCervical> GetDilatacionesCervicales(string partogramaId)
+        {
+            try
+            {
+                return _dilatacionCervicalRepository.GetDilatacionesCervicales(partogramaId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public DilatacionCervical CreateDilatacionCervical(DilatacionCervicalDto dilatacionCervicalDto)
+        {
+            try
+            {
+                var dilatacion = new DilatacionCervical
+                {
+                    PartogramaId = dilatacionCervicalDto.PartogramaId,
+                    Hora = dilatacionCervicalDto.Hora,
+                    Valor = dilatacionCervicalDto.Valor,
+                };
+
                 return _dilatacionCervicalRepository.CreateDilatacionCervical(dilatacion);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public DilatacionCervical UpdateDilatacionCervical(DilatacionCervicalDto dilatacionCervicalDto)
+        {
+            try
+            {
+                var dilatacion = new DilatacionCervical
+                {
+                    DilatacionCervicalId = dilatacionCervicalDto.DilatacionCervicalId!,
+                    PartogramaId = dilatacionCervicalDto.PartogramaId,
+                    Hora = dilatacionCervicalDto.Hora,
+                    Valor = dilatacionCervicalDto.Valor,
+                };
+
+                return _dilatacionCervicalRepository.UpdateDilatacionCervical(dilatacion);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public void DeleteDilatacionCervical(string DilatacionCervicalId)
+        {
+            try
+            {
+                _dilatacionCervicalRepository.DeleteDilatacionCervical(DilatacionCervicalId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public IEnumerable<Vpp> GetVpps(string partogramaId)
+        {
+            try
+            {
+                return _vppRepository.GetVpps(partogramaId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public Vpp GetVpp(string vppId)
+        {
+            try
+            {
+                if (vppId == null)
+                    throw new Exception();
+
+                return _vppRepository.GetVpp(vppId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public Vpp CreateVpp(VppDto vppDto)
+        {
+            var vpp = new Vpp
+            {
+                PartogramaId = vppDto.PartogramaId,
+                PlanoHodge = vppDto.PlanoHodge,
+                Posicion = vppDto.Posicion,
+                Tiempo = vppDto.Tiempo,
+            };
+
+            return _vppRepository.CreateVpp(vpp);
+        }
+
+        public Vpp UpdateVpp(VppDto vppDto)
+        {
+            try
+            {
+                if (vppDto.VppId == null)
+                    throw new Exception();
+
+                var vpp = new Vpp
+                {
+                    VppId = vppDto.VppId!,
+                    PartogramaId = vppDto.PartogramaId,
+                    PlanoHodge = vppDto.PlanoHodge,
+                    Posicion = vppDto.Posicion,
+                    Tiempo = vppDto.Tiempo,
+                };
+
+                return _vppRepository.UpdateVpp(vpp);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public void DeleteVpp(string vppId)
+        {
+            try
+            {
+                _vppRepository.DeleteVpp(vppId);
             }
             catch (Exception ex)
             {

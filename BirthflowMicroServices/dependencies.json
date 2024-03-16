@@ -19,6 +19,16 @@
       "From": "BirthflowMicroServices.Domain.Interfaces.IPartogramaRepository, BirthflowMicroServices.Domain",
       "To": "BirthflowMicroServices.Infraestructure.Repositories.PartogramaRepository, BirthflowMicroServices.Infraestructure",
       "DependencyType": "Transient"
+    },
+    {
+      "From": "BirthflowMicroServices.Domain.Interfaces.IDilatacionCervicalRepository, BirthflowMicroServices.Domain",
+      "To": "BirthflowMicroServices.Infraestructure.Repositories.DilatacionCervicalRepository, BirthflowMicroServices.Infraestructure",
+      "DependencyType": "Transient"
+    },
+    {
+      "From": "BirthflowMicroServices.Domain.Interfaces.IVppRepository, BirthflowMicroServices.Domain",
+      "To": "BirthflowMicroServices.Infraestructure.Repositories.VppRepository, BirthflowMicroServices.Infraestructure",
+      "DependencyType": "Transient"
     }
   ]
 }
