@@ -1,11 +1,5 @@
 ﻿using BirthflowMicroServices.Domain.Interfaces;
 using BirthflowMicroServices.Domain.Models;
-using BirthflowMicroServices.Infraestructure.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BirthflowMicroServices.Infraestructure.Repositories
 {
@@ -23,8 +17,8 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
             try
             {
                 var result = _context.TiempoTrabajos.Find(tiempoTrabajo.PartogramaId);
-                
-                if(result != null)
+
+                if (result != null)
                 {
                     result.Paridad = tiempoTrabajo.Paridad;
                     result.Membranas = tiempoTrabajo.Membranas;

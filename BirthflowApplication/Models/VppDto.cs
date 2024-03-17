@@ -8,7 +8,7 @@
 
         public int PlanoHodgeId { get; set; }
 
-        public int PosicionFetalId { get; set; } 
+        public int PosicionFetalId { get; set; }
 
         public DateTime Tiempo { get; set; }
     }

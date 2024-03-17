@@ -243,7 +243,7 @@ namespace BirthflowMicroServices.Application.Services
             {
                 var tiempoTrabajo = new TiempoTrabajo()
                 {
-                    PartogramaId = tiempoTrabajoDto.PartogramaId,
+                    PartogramaId = tiempoTrabajoDto.PartogramaId!,
                     Membranas = tiempoTrabajoDto.Membranas,
                     Posicion = tiempoTrabajoDto.Posicion,
                     Paridad = tiempoTrabajoDto.Paridad,
