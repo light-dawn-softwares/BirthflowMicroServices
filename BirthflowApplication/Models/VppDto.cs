@@ -6,9 +6,9 @@
 
         public string? PartogramaId { get; set; }
 
-        public string PlanoHodge { get; set; } = null!;
+        public int PlanoHodgeId { get; set; } = null!;
 
-        public string Posicion { get; set; } = null!;
+        public int PosicionFetalId { get; set; } = null!;
 
         public DateTime Tiempo { get; set; }
     }

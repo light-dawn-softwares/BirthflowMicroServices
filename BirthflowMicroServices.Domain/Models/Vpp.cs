@@ -6,9 +6,9 @@ public partial class Vpp
 
     public string? PartogramaId { get; set; }
 
-    public string PlanoHodge { get; set; } = null!;
+    public int PlanoHodgeId { get; set; }
 
-    public string Posicion { get; set; } = null!;
+    public int PosicionFetalId { get; set; }
 
     public DateTime Tiempo { get; set; }
 
@@ -21,4 +21,8 @@ public partial class Vpp
     public DateTime? DeleteAt { get; set; }
 
     public virtual Partograma? Partograma { get; set; }
+
+    public virtual PlanoHodge PlanoHodge { get; set; } = null!;
+
+    public virtual PosicionFetal PosicionFetal { get; set; } = null!;
 }
