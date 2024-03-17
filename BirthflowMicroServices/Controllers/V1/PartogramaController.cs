@@ -175,7 +175,6 @@ namespace BirthflowMicroServices.Controllers.V1
             }
         }
 
-
         [HttpGet()]
         public IActionResult GetDilatacionCervicales(string partogramaId)
         {
