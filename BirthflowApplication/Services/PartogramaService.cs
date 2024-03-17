@@ -179,8 +179,8 @@ namespace BirthflowMicroServices.Application.Services
             var vpp = new Vpp
             {
                 PartogramaId = vppDto.PartogramaId,
-                PlanoHodge = vppDto.PlanoHodge,
-                Posicion = vppDto.Posicion,
+                PlanoHodgeId = vppDto.PlanoHodgeId,
+                PosicionFetalId = vppDto.PosicionFetalId,
                 Tiempo = vppDto.Tiempo,
             };
 
@@ -198,8 +198,8 @@ namespace BirthflowMicroServices.Application.Services
                 {
                     VppId = vppDto.VppId!,
                     PartogramaId = vppDto.PartogramaId,
-                    PlanoHodge = vppDto.PlanoHodge,
-                    Posicion = vppDto.Posicion,
+                    PlanoHodgeId = vppDto.PlanoHodgeId,
+                    PosicionFetalId = vppDto.PosicionFetalId,
                     Tiempo = vppDto.Tiempo,
                 };
 

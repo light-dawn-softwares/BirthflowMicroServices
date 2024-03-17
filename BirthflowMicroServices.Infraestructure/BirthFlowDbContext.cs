@@ -19,6 +19,14 @@ public partial class BirthFlowDbContext : DbContext
         this._config = config;
     }
 
+    public BirthFlowDbContext(DbContextOptions options) : base(options)
+    {
+        this._config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build(); ;
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
  => optionsBuilder.UseSqlServer(_config.GetConnectionString($"Birthflow"));
 
@@ -80,6 +88,10 @@ public partial class BirthFlowDbContext : DbContext
 
     public virtual DbSet<VigilanciaMedicaHistorico> VigilanciaMedicaHistoricos { get; set; }
 
+    public virtual DbSet<PlanoHodge> PlanosHodge { get; set; }
+
+    public virtual DbSet<PosicionFetal> PosicionesFetales { get; set; }
+
     public virtual DbSet<Vpp> Vpps { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -108,6 +120,8 @@ public partial class BirthFlowDbContext : DbContext
         modelBuilder.Entity<DilatacionCervical>(entity =>
         {
             entity.HasKey(e => e.DilatacionCervicalId).HasName("PK__Dilataci__AF44EEABDFE91BA7");
+
+            entity.HasIndex(e => e.PartogramaId, "IX_DilatacionesCervicales_PartogramaID");
 
             entity.Property(e => e.DilatacionCervicalId)
                 .HasMaxLength(15)
@@ -162,6 +176,8 @@ public partial class BirthFlowDbContext : DbContext
 
             entity.ToTable("FrecuenciaCardiacaFetal");
 
+            entity.HasIndex(e => e.PartogramaId, "IX_FrecuenciaCardiacaFetal_PartogramaID");
+
             entity.Property(e => e.FrecuenciaCardiacaFetalId)
                 .HasMaxLength(15)
                 .IsUnicode(false)
@@ -214,6 +230,8 @@ public partial class BirthFlowDbContext : DbContext
         modelBuilder.Entity<FrecuenciaContracione>(entity =>
         {
             entity.HasKey(e => e.FrecuenciaContracionesId).HasName("PK__Frecuenc__1B45F4EDD79E165B");
+
+            entity.HasIndex(e => e.PartogramaId, "IX_FrecuenciaContraciones_PartogramaID");
 
             entity.Property(e => e.FrecuenciaContracionesId)
                 .HasMaxLength(15)
@@ -400,6 +418,12 @@ public partial class BirthFlowDbContext : DbContext
                 .HasNoKey()
                 .ToTable("NotificationPartograma");
 
+            entity.HasIndex(e => e.NotificacionId, "IX_NotificationPartograma_NotificacionID");
+
+            entity.HasIndex(e => e.PartogramaId, "IX_NotificationPartograma_PartogramaID");
+
+            entity.HasIndex(e => e.UsuarioId, "IX_NotificationPartograma_UsuarioID");
+
             entity.Property(e => e.NotificacionId)
                 .HasMaxLength(15)
                 .IsUnicode(false)
@@ -426,6 +450,10 @@ public partial class BirthFlowDbContext : DbContext
         modelBuilder.Entity<Notificatione>(entity =>
         {
             entity.HasKey(e => e.NotificacionId).HasName("PK__Notifica__BCC120C41D39179E");
+
+            entity.HasIndex(e => e.NotificationTypeId, "IX_Notificationes_NotificationTypeID");
+
+            entity.HasIndex(e => e.UsuarioId, "IX_Notificationes_UsuarioID");
 
             entity.Property(e => e.NotificacionId)
                 .HasMaxLength(15)
@@ -502,6 +530,8 @@ public partial class BirthFlowDbContext : DbContext
         {
             entity.HasKey(e => e.PartogramaId).HasName("PK__Partogra__2A6C3913CC5F9652");
 
+            entity.HasIndex(e => e.UsuarioId, "IX_Partogramas_UsuarioID");
+
             entity.Property(e => e.PartogramaId)
                 .HasMaxLength(15)
                 .IsUnicode(false)
@@ -530,6 +560,8 @@ public partial class BirthFlowDbContext : DbContext
             entity.HasKey(e => e.PartogramaId).HasName("PK__Partogra__2A6C391353C62D84");
 
             entity.ToTable("PartogramaEstado");
+
+            entity.HasIndex(e => e.TipoPermisoId, "IX_PartogramaEstado_TipoPermisoID");
 
             entity.Property(e => e.PartogramaId)
                 .HasMaxLength(15)
@@ -564,6 +596,12 @@ public partial class BirthFlowDbContext : DbContext
         {
             entity.HasNoKey();
 
+            entity.HasIndex(e => e.PartogramaId, "IX_PartogramaHistorialCambios_PartogramaID");
+
+            entity.HasIndex(e => e.TipoCambioId, "IX_PartogramaHistorialCambios_TipoCambioID");
+
+            entity.HasIndex(e => e.UsuarioId, "IX_PartogramaHistorialCambios_UsuarioID");
+
             entity.Property(e => e.Fecha).HasColumnType("datetime");
             entity.Property(e => e.PartogramaId)
                 .HasMaxLength(15)
@@ -588,6 +626,14 @@ public partial class BirthFlowDbContext : DbContext
         modelBuilder.Entity<PartogramaPermiso>(entity =>
         {
             entity.HasKey(e => e.PermisoPartogramaId).HasName("PK__Partogra__CAF60972E381D3F8");
+
+            entity.HasIndex(e => e.PartogramaId, "IX_PartogramaPermisos_PartogramaID");
+
+            entity.HasIndex(e => e.RolId, "IX_PartogramaPermisos_RolID");
+
+            entity.HasIndex(e => e.TipoPermisoRolId, "IX_PartogramaPermisos_TipoPermisoRolID");
+
+            entity.HasIndex(e => e.UsuarioId, "IX_PartogramaPermisos_UsuarioID");
 
             entity.Property(e => e.PermisoPartogramaId)
                 .HasMaxLength(15)
@@ -651,6 +697,8 @@ public partial class BirthFlowDbContext : DbContext
         {
             entity.HasKey(e => e.PasswordId).HasName("PK__Password__EA7BF0E814DA0B01");
 
+            entity.HasIndex(e => e.UsuarioId, "IX_Passwords_UsuarioID");
+
             entity.Property(e => e.PasswordId)
                 .ValueGeneratedNever()
                 .HasColumnName("PasswordID");
@@ -664,6 +712,36 @@ public partial class BirthFlowDbContext : DbContext
             entity.HasOne(d => d.Usuario).WithMany(p => p.Passwords)
                 .HasForeignKey(d => d.UsuarioId)
                 .HasConstraintName("FK__Passwords__Usuar__3E52440B");
+        });
+
+        modelBuilder.Entity<PlanoHodge>(entity =>
+        {
+            entity.HasKey(e => e.PlanoHodgeId).HasName("PK__PlanoHodge__4A561D7649310E4F");
+
+            entity.ToTable("PlanosHodge");
+
+            entity.Property(e => e.PlanoHodgeId).HasColumnName("PlanoHodgeID");
+            entity.Property(e => e.CreateAt).HasColumnType("datetime");
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(25)
+                .IsUnicode(false);
+            entity.Property(e => e.Valor)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<PosicionFetal>(entity =>
+        {
+            entity.HasKey(e => e.PosicionFetalId).HasName("PK__PosicionFetal__4A561D7649310E4F");
+
+            entity.Property(e => e.PosicionFetalId).HasColumnName("PosicionFetalID");
+            entity.Property(e => e.CreateAt).HasColumnType("datetime");
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(25)
+                .IsUnicode(false);
+            entity.Property(e => e.Valor)
+                .HasMaxLength(20)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -798,6 +876,8 @@ public partial class BirthFlowDbContext : DbContext
         {
             entity.HasKey(e => e.UsuarioId).HasName("PK__Usuarios__2B3DE79832BF79ED");
 
+            entity.HasIndex(e => e.RolId, "IX_Usuarios_RolID");
+
             entity.Property(e => e.UsuarioId)
                 .ValueGeneratedNever()
                 .HasColumnName("UsuarioID");
@@ -832,6 +912,8 @@ public partial class BirthFlowDbContext : DbContext
             entity.HasKey(e => e.VigilanciaMedicaId).HasName("PK__Vigilanc__7C44AA214E17EE5B");
 
             entity.ToTable("VigilanciaMedica");
+
+            entity.HasIndex(e => e.PartogramaId, "IX_VigilanciaMedica_PartogramaID");
 
             entity.Property(e => e.VigilanciaMedicaId)
                 .HasMaxLength(15)
@@ -928,6 +1010,8 @@ public partial class BirthFlowDbContext : DbContext
         {
             entity.HasKey(e => e.VppId).HasName("PK__Vpps__086F0E45231B0BD8");
 
+            entity.HasIndex(e => e.PartogramaId, "IX_Vpps_PartogramaID");
+
             entity.Property(e => e.VppId)
                 .HasMaxLength(15)
                 .IsUnicode(false)
@@ -941,18 +1025,20 @@ public partial class BirthFlowDbContext : DbContext
                 .HasMaxLength(15)
                 .IsUnicode(false)
                 .HasColumnName("PartogramaID");
-            entity.Property(e => e.PlanoHodge)
-                .HasMaxLength(5)
-                .IsUnicode(false);
-            entity.Property(e => e.Posicion)
-                .HasMaxLength(15)
-                .IsUnicode(false);
+            entity.Property(e => e.PlanoHodgeId).HasColumnName("PlanoHodgeID");
+            entity.Property(e => e.PosicionFetalId).HasColumnName("PosicionFetalID");
             entity.Property(e => e.Tiempo).HasColumnType("datetime");
             entity.Property(e => e.UpdateAt).HasColumnType("datetime");
 
             entity.HasOne(d => d.Partograma).WithMany(p => p.Vpps)
                 .HasForeignKey(d => d.PartogramaId)
                 .HasConstraintName("FK__Vpps__Partograma__6C190EBB");
+
+            entity.HasOne(d => d.PlanoHodge).WithMany(p => p.Vpps).HasForeignKey(d => d.PlanoHodgeId);
+
+            entity.HasOne(d => d.PosicionFetal).WithMany(p => p.Vpps)
+                .HasForeignKey(d => d.PosicionFetalId)
+                .HasConstraintName("FK_Vpps_PosicionesFetal_PosicionFetalID");
         });
 
         OnModelCreatingPartial(modelBuilder);

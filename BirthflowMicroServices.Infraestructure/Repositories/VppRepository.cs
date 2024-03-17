@@ -86,8 +86,8 @@ namespace BirthflowMicroServices.Infraestructure.Repositories
             if (searchElement != null)
             {
                 searchElement.PartogramaId = vpp.PartogramaId;
-                searchElement.PlanoHodge = vpp.PlanoHodge;
-                searchElement.Posicion = vpp.Posicion;
+                searchElement.PlanoHodgeId = vpp.PlanoHodgeId;
+                searchElement.PosicionFetalId = vpp.PosicionFetalId;
                 searchElement.Tiempo = vpp.Tiempo;
                 searchElement.UpdateAt = DateTime.Now;
 
