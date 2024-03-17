@@ -17,7 +17,7 @@ namespace BirthflowMicroServices.Infraestructure
             var connectionString = configuration.GetConnectionString("Birthflow");
             builder.UseSqlServer(connectionString);
 
-            return new BirthFlowDbContext(builder.Options);
+            return new BirthFlowDbContext(builder.Options, configuration);
         }
     }
 }

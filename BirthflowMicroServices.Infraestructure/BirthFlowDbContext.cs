@@ -19,13 +19,6 @@ public partial class BirthFlowDbContext : DbContext
         this._config = config;
     }
 
-    public BirthFlowDbContext(DbContextOptions options) : base(options)
-    {
-        this._config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build(); ;
-    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
  => optionsBuilder.UseSqlServer(_config.GetConnectionString($"Birthflow"));

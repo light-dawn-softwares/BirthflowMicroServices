@@ -2,7 +2,7 @@
 
 public partial class PosicionFetal
 {
-    public string PosicionFetalId { get; set; } = null!;
+    public int PosicionFetalId { get; set; }
 
     public string Descripcion { get; set; } = null!;
 

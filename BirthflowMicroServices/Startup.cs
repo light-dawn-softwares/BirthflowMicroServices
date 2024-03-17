@@ -23,7 +23,7 @@ namespace BirthflowMicroServices
             services.AddDbContext<BirthFlowDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Birthflow"));
-            });
+            }, ServiceLifetime.Scoped);
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -105,7 +105,7 @@ namespace BirthflowMicroServices
                     var provider = app.ApplicationServices.GetService<IApiVersionDescriptionProvider>();
 
                     // Itera sobre las descripciones de versiones y agrega un endpoint de Swagger para cada una
-                    foreach (var description in provider.ApiVersionDescriptions)
+                    foreach (var description in provider!.ApiVersionDescriptions)
                     {
                         var url = $"/swagger/{description.GroupName}/swagger.json";
                         var name = description.GroupName.ToUpperInvariant();
