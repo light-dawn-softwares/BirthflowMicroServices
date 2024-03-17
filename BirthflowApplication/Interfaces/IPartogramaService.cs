@@ -5,11 +5,15 @@ namespace BirthflowMicroServices.Application.Interfaces
 {
     public interface IPartogramaService
     {
-        IEnumerable<Partograma> GetPartogramas(Guid usuarioId);
+        public IEnumerable<Partograma> GetPartogramas(Guid usuarioId);
 
-        Partograma GetPartograma(string partogramaId);
+        public Partograma GetPartograma(string partogramaId);
 
-        Partograma CreatePartograma(PartogramaDto partogramaDto);
+        public Partograma CreatePartograma(PartogramaDto partogramaDto);
+
+        public TiempoTrabajo GetTiempoTrabajo(string partogramaId);
+
+        public TiempoTrabajo UpdateTiempoTrabajo(TiempoTrabajoDto tiempoTrabajoDto);
 
         public DilatacionCervical GetDilatacionCervical(string DilatacionCervicalId);
 

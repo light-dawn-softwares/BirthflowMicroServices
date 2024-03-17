@@ -117,6 +117,66 @@ namespace BirthflowMicroServices.Controllers.V1
         }
 
         [HttpGet()]
+        public IActionResult GetTiempoTrabajo(string partogramaId)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                var resultado = _service.GetTiempoTrabajo(partogramaId);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(resultado, Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine(trace);
+                trace.Clear();
+            }
+        }
+
+        [HttpPatch()]
+        public IActionResult UpdateTiempoTrabajo([FromBody] TiempoTrabajoDto tiempoTrabajoDto)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                var resultado = _service.UpdateTiempoTrabajo(tiempoTrabajoDto);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(resultado, Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine(trace);
+                trace.Clear();
+            }
+        }
+
+
+        [HttpGet()]
         public IActionResult GetDilatacionCervicales(string partogramaId)
         {
             StringBuilder stringBuilder = new();

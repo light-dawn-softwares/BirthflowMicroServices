@@ -10,12 +10,14 @@ namespace BirthflowMicroServices.Application.Services
         private readonly IPartogramaRepository _partogramaRepository;
         private readonly IDilatacionCervicalRepository _dilatacionCervicalRepository;
         private readonly IVppRepository _vppRepository;
+        private readonly ITiempoTrabajoRepository _tiempoTrabajoRepository;
 
-        public PartogramaService(IPartogramaRepository partogramaRepository, IDilatacionCervicalRepository dilatacionCervicalRepository, IVppRepository vppRepository)
+        public PartogramaService(IPartogramaRepository partogramaRepository, IDilatacionCervicalRepository dilatacionCervicalRepository, IVppRepository vppRepository, ITiempoTrabajoRepository tiempoTrabajoRepository)
         {
             this._partogramaRepository = partogramaRepository;
             this._dilatacionCervicalRepository = dilatacionCervicalRepository;
             this._vppRepository = vppRepository;
+            _tiempoTrabajoRepository = tiempoTrabajoRepository;
         }
 
         public Partograma GetPartograma(string partogramaId)
@@ -216,6 +218,38 @@ namespace BirthflowMicroServices.Application.Services
             try
             {
                 _vppRepository.DeleteVpp(vppId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public TiempoTrabajo GetTiempoTrabajo(string partogramaId)
+        {
+            try
+            {
+                return _tiempoTrabajoRepository.GetTiempoTrabajo(partogramaId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public TiempoTrabajo UpdateTiempoTrabajo(TiempoTrabajoDto tiempoTrabajoDto)
+        {
+            try
+            {
+                var tiempoTrabajo = new TiempoTrabajo()
+                {
+                    PartogramaId = tiempoTrabajoDto.PartogramaId,
+                    Membranas = tiempoTrabajoDto.Membranas,
+                    Posicion = tiempoTrabajoDto.Posicion,
+                    Paridad = tiempoTrabajoDto.Paridad,
+                };
+
+                return _tiempoTrabajoRepository.UpdateTiempoTrabajo(tiempoTrabajo);
             }
             catch (Exception ex)
             {
