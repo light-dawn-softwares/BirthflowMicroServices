@@ -45,7 +45,7 @@ public partial class BirthFlowDbContext : DbContext
 
     public virtual DbSet<Notificatione> Notificationes { get; set; }
 
-    public virtual DbSet<Observacione> Observaciones { get; set; }
+    public virtual DbSet<Observacion> Observaciones { get; set; }
 
     public virtual DbSet<ObservacionesHistorico> ObservacionesHistoricos { get; set; }
 
@@ -465,7 +465,7 @@ public partial class BirthFlowDbContext : DbContext
                 .HasConstraintName("FK__Notificat__Usuar__00200768");
         });
 
-        modelBuilder.Entity<Observacione>(entity =>
+        modelBuilder.Entity<Observacion>(entity =>
         {
             entity.HasKey(e => e.VigilanciaMedicaId).HasName("PK__Observac__7C44AA21ECA9F18E");
 
@@ -487,7 +487,7 @@ public partial class BirthFlowDbContext : DbContext
             entity.Property(e => e.UpdateAt).HasColumnType("datetime");
 
             entity.HasOne(d => d.VigilanciaMedica).WithOne(p => p.Observacione)
-                .HasForeignKey<Observacione>(d => d.VigilanciaMedicaId)
+                .HasForeignKey<Observacion>(d => d.VigilanciaMedicaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Observaci__Vigil__6754599E");
         });

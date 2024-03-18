@@ -32,7 +32,7 @@ public partial class VigilanciaMedica
 
     public DateTime? DeleteAt { get; set; }
 
-    public virtual Observacione? Observacione { get; set; }
+    public virtual Observacion? Observacione { get; set; }
 
     public virtual Partograma? Partograma { get; set; }
 }
