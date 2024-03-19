@@ -21,7 +21,7 @@ namespace BirthflowMicroServices.Application.Interfaces
 
         public DilatacionCervical CreateDilatacionCervical(DilatacionCervicalDto dilatacionCervicalDto);
 
-        public DilatacionCervical UpdateDilatacionCervical(DilatacionCervicalDto dilatacionCervical);
+        public DilatacionCervical UpdateDilatacionCervical(DilatacionCervicalDto dilatacionCervicalDto);
 
         public void DeleteDilatacionCervical(string dilatacionCervicalId);
 
@@ -34,5 +34,19 @@ namespace BirthflowMicroServices.Application.Interfaces
         public Vpp UpdateVpp(VppDto vppDto);
 
         public void DeleteVpp(string vppId);
+
+        public IEnumerable<VigilanciaMedica> GetTablaVigilanciaMedica(string partogramaId);
+
+        public VigilanciaMedica GetVigilancia(string vigilanciaMedicaId);
+
+        public VigilanciaMedica CreateVigilanciaMedica(VigilanciaMedicaDto vigilanciaMedicaDto);
+
+        public VigilanciaMedica UpdateVigilanciaMedica(VigilanciaMedicaDto vigilanciaMedicaDto);
+
+        public void DeleteVigilanciaMedica(string vigilanciaMedicaId);
+
+        public Observacion UpdateObservacion(ObservacionDto observacionDto);
+
+        public void DeleteObservacion(string vigilanciaMedicaId);
     }
 }

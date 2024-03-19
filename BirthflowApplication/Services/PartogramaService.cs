@@ -11,13 +11,16 @@ namespace BirthflowMicroServices.Application.Services
         private readonly IDilatacionCervicalRepository _dilatacionCervicalRepository;
         private readonly IVppRepository _vppRepository;
         private readonly ITiempoTrabajoRepository _tiempoTrabajoRepository;
+        private readonly IVigilanciaMedicaRepository _vigilanciaMedicaRepository;
 
-        public PartogramaService(IPartogramaRepository partogramaRepository, IDilatacionCervicalRepository dilatacionCervicalRepository, IVppRepository vppRepository, ITiempoTrabajoRepository tiempoTrabajoRepository)
+        public PartogramaService(IPartogramaRepository partogramaRepository, IDilatacionCervicalRepository dilatacionCervicalRepository,
+            IVppRepository vppRepository, ITiempoTrabajoRepository tiempoTrabajoRepository, IVigilanciaMedicaRepository vigilanciaMedicaRepository)
         {
-            this._partogramaRepository = partogramaRepository;
-            this._dilatacionCervicalRepository = dilatacionCervicalRepository;
-            this._vppRepository = vppRepository;
+            _partogramaRepository = partogramaRepository;
+            _dilatacionCervicalRepository = dilatacionCervicalRepository;
+            _vppRepository = vppRepository;
             _tiempoTrabajoRepository = tiempoTrabajoRepository;
+            _vigilanciaMedicaRepository = vigilanciaMedicaRepository;
         }
 
         public Partograma GetPartograma(string partogramaId)
@@ -250,6 +253,130 @@ namespace BirthflowMicroServices.Application.Services
                 };
 
                 return _tiempoTrabajoRepository.UpdateTiempoTrabajo(tiempoTrabajo);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public IEnumerable<VigilanciaMedica> GetTablaVigilanciaMedica(string partogramaId)
+        {
+            try
+            {
+                return _vigilanciaMedicaRepository.GetTablaVigilanciaMedica(partogramaId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public VigilanciaMedica GetVigilancia(string vigilanciaMedicaId)
+        {
+            try
+            {
+                return _vigilanciaMedicaRepository.GetVigilancia(vigilanciaMedicaId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public VigilanciaMedica CreateVigilanciaMedica(VigilanciaMedicaDto vigilanciaMedicaDto)
+        {
+            try
+            {
+                var vigilanciaMedica = new VigilanciaMedica()
+                {
+                    PartogramaId = vigilanciaMedicaDto.PartogramaId!,
+                    Tiempo = vigilanciaMedicaDto.Tiempo,
+                    PosicionMaterna = vigilanciaMedicaDto.PosicionMaterna,
+                    PresionArterial = vigilanciaMedicaDto.PresionArterial,
+                    PulsoMaterno = vigilanciaMedicaDto.PulsoMaterno,
+                    FrecuenciaCardiacaFetal = vigilanciaMedicaDto.FrecuenciaCardiacaFetal,
+                    DuracionContracciones = vigilanciaMedicaDto.DuracionContracciones,
+                    FrecuenciaContraciones = vigilanciaMedicaDto.DuracionContracciones,
+                    DolorIntensidad = vigilanciaMedicaDto.DolorIntensidad,
+                    DolorLocalizacion = vigilanciaMedicaDto.DolorLocalizacion,
+                };
+
+                var observacion = new Observacion()
+                {
+                    VigilanciaMedicaId = vigilanciaMedicaDto.VigilanciaMedicaId!,
+                    Descripcion = vigilanciaMedicaDto.observacion!.Descripcion,
+                };
+
+                return _vigilanciaMedicaRepository.CreateVigilanciaMedica(vigilanciaMedica, observacion);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public VigilanciaMedica UpdateVigilanciaMedica(VigilanciaMedicaDto vigilanciaMedicaDto)
+        {
+            try
+            {
+                var vigilanciaMedica = new VigilanciaMedica()
+                {
+                    PartogramaId = vigilanciaMedicaDto.PartogramaId!,
+                    Tiempo = vigilanciaMedicaDto.Tiempo,
+                    PosicionMaterna = vigilanciaMedicaDto.PosicionMaterna,
+                    PresionArterial = vigilanciaMedicaDto.PresionArterial,
+                    PulsoMaterno = vigilanciaMedicaDto.PulsoMaterno,
+                    FrecuenciaCardiacaFetal = vigilanciaMedicaDto.FrecuenciaCardiacaFetal,
+                    DuracionContracciones = vigilanciaMedicaDto.DuracionContracciones,
+                    FrecuenciaContraciones = vigilanciaMedicaDto.DuracionContracciones,
+                    DolorIntensidad = vigilanciaMedicaDto.DolorIntensidad,
+                    DolorLocalizacion = vigilanciaMedicaDto.DolorLocalizacion,
+                };
+
+                return _vigilanciaMedicaRepository.UpdateVigilanciaMedica(vigilanciaMedica);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public void DeleteVigilanciaMedica(string vigilanciaMedicaId)
+        {
+            try
+            {
+                _vigilanciaMedicaRepository.DeleteVigilanciaMedica(vigilanciaMedicaId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public Observacion UpdateObservacion(ObservacionDto observacionDto)
+        {
+            try
+            {
+                var observacion = new Observacion()
+                {
+                    VigilanciaMedicaId = observacionDto.VigilanciaMedicaId!,
+                    Descripcion = observacionDto.Descripcion,
+                };
+
+                return _vigilanciaMedicaRepository.UpdateObservacion(observacion);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error", ex);
+            }
+        }
+
+        public void DeleteObservacion(string vigilanciaMedicaId)
+        {
+            try
+            {
+                _vigilanciaMedicaRepository.DeleteObservacion(vigilanciaMedicaId);
             }
             catch (Exception ex)
             {
