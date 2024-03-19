@@ -47,6 +47,11 @@
       "From": "BirthflowMicroServices.Domain.Interfaces.ITiempoTrabajoRepository, BirthflowMicroServices.Domain",
       "To": "BirthflowMicroServices.Infraestructure.Repositories.TiempoTrabajoRepository, BirthflowMicroServices.Infraestructure",
       "DependencyType": "Transient"
+    },
+    {
+      "From": "BirthflowMicroServices.Domain.Interfaces.IVigilanciaMedicaRepository, BirthflowMicroServices.Domain",
+      "To": "BirthflowMicroServices.Infraestructure.Repositories.VigilanciaMedicaRepository, BirthflowMicroServices.Infraestructure",
+      "DependencyType": "Transient"
     }
   ]
 }

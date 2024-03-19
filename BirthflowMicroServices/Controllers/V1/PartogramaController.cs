@@ -383,7 +383,7 @@ namespace BirthflowMicroServices.Controllers.V1
         }
 
         [HttpPost()]
-        public IActionResult CreateVppl([FromBody] VppDto vppDto)
+        public IActionResult CreateVpp([FromBody] VppDto vppDto)
         {
             StringBuilder stringBuilder = new();
             StringBuilder trace = stringBuilder;
@@ -452,6 +452,209 @@ namespace BirthflowMicroServices.Controllers.V1
                 _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
                 //Servicio
                 _service.DeleteVpp(vppId);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(new DilatacionCervical(), Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine(trace);
+                trace.Clear();
+            }
+        }
+
+        [HttpGet()]
+        public IActionResult GetTablaVigilanciaMedica(string partogramaId)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                var resultado = _service.GetTablaVigilanciaMedica(partogramaId);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(resultado, Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine(trace);
+                trace.Clear();
+            }
+        }
+
+        [HttpGet()]
+        public IActionResult GetVigilancia(string vigilanciaMedicaId)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                var resultado = _service.GetVigilancia(vigilanciaMedicaId);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(resultado, Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine(trace);
+                trace.Clear();
+            }
+        }
+
+        [HttpPost()]
+        public IActionResult CreateVigilanciaMedica([FromBody] VigilanciaMedicaDto vigilanciaMedicaDto)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                var resultado = _service.CreateVigilanciaMedica(vigilanciaMedicaDto);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(resultado, Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine(trace);
+                trace.Clear();
+            }
+        }
+
+        [HttpPatch()]
+        public IActionResult UpdateObservacion([FromBody] ObservacionDto observacionDto)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                var resultado = _service.UpdateObservacion(observacionDto);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(resultado, Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine(trace);
+                trace.Clear();
+            }
+        }
+
+        [HttpPatch()]
+        public IActionResult UpdateVigilanciaMedica([FromBody] VigilanciaMedicaDto vigilanciaMedicaDto)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                var resultado = _service.UpdateVigilanciaMedica(vigilanciaMedicaDto);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(resultado, Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine(trace);
+                trace.Clear();
+            }
+        }
+
+        [HttpDelete()]
+        public IActionResult DeleteVigilanciaMedica(string vigilanciaMedicaId)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                _service.DeleteVigilanciaMedica(vigilanciaMedicaId);
+
+                trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(new DilatacionCervical(), Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "");
+                trace.AppendLine($"Ocurrió un error no controlado {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine(trace);
+                trace.Clear();
+            }
+        }
+
+        [HttpDelete()]
+        public IActionResult DeleteObservacion(string vigilanciaMedicaId)
+        {
+            StringBuilder stringBuilder = new();
+            StringBuilder trace = stringBuilder;
+            try
+            {
+                var nombreEvent = new StackTrace()!.GetFrame(0)?.GetMethod()?.Name;
+                trace.AppendLine($"Servicio {nombreServicio} - Controller {nombreController} - Método: {nombreEvent}:");
+                _logger.Log(LogLevel.Information, $"Inicio {nombreEvent}");
+                //Servicio
+                _service.DeleteObservacion(vigilanciaMedicaId);
 
                 trace.Append($"{nombreEvent} - Respuesta: " + JsonConvert.SerializeObject(new DilatacionCervical(), Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
                 return Ok();
